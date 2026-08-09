@@ -201,6 +201,8 @@
       text-transform:uppercase;letter-spacing:.08em;font-size:14px;padding:12px 20px;z-index:120;
       opacity:0;transition:opacity .18s,transform .18s;pointer-events:none;white-space:nowrap}
   .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  .list-head{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--muted);padding:8px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
   .log-sub{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
   .log-sel{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45}
 
@@ -274,13 +276,13 @@
           <div><label for="kickoff">Kick-off</label><input id="kickoff" type="datetime-local"></div>
         </div>
         <div class="row">
-          <div><label for="home">Home</label><input id="home" value="Spain"></div>
-          <div><label for="away">Away</label><input id="away" value="Argentina"></div>
+          <div><label for="home">Home</label><input id="home" value="" placeholder="Home team"></div>
+          <div><label for="away">Away</label><input id="away" value="" placeholder="Away team"></div>
         </div>
         <div id="otherWrap" style="display:none"><label for="leagueOther">League name</label>
           <input id="leagueOther" value=""></div>
         <div class="row">
-          <div><label for="book">Bookmaker</label><input id="book" value="Bet365"></div>
+          <div><label for="book">Bookmaker</label><input id="book" value="" placeholder="Bookmaker"></div>
           <div><label for="unit">Stake shown as</label>
             <select id="unit"><option value="u">Units (u)</option><option value="£">Pounds (£)</option></select>
           </div>
@@ -313,13 +315,13 @@
       <fieldset id="fs-data">
         <legend>Data</legend>
         <label for="intro">Opening line &mdash; leave blank to hide</label>
-        <textarea id="intro">Both predicted to start and some huge upside if both do.</textarea>
+        <textarea id="intro" placeholder="Optional intro line"></textarea>
         <div id="stats"></div>
         <button type="button" class="act ghost" id="addStat">+ Add stat line</button>
         <label for="notes">Extra notes &mdash; one per line, blank to hide</label>
-        <textarea id="notes">Saka also wins 1.7 fouls per 90.</textarea>
+        <textarea id="notes" placeholder="Optional note"></textarea>
         <label for="legend">Legend &mdash; blank to hide</label>
-        <input id="legend" value="* = started on the bench">
+        <input id="legend" value="" placeholder="* = started on the bench">
         <label for="order">Most recent match is</label>
         <select id="order">
           <option value="last">Last in the list</option>
@@ -357,6 +359,23 @@
               </select></div>
             <div><label for="leagueFilter">League</label>
               <select id="leagueFilter"><option value="all">All leagues</option></select></div>
+          </div>
+          <div class="row">
+            <div><label for="listSize">Bet list</label>
+              <select id="listSize">
+                <option value="0">Hidden &mdash; totals only</option>
+                <option value="25" selected>Latest 25</option>
+                <option value="50">Latest 50</option>
+                <option value="100">Latest 100</option>
+                <option value="all">Show every bet</option>
+              </select>
+            </div>
+            <div><label for="listOrder">Order</label>
+              <select id="listOrder">
+                <option value="new">Newest first</option>
+                <option value="old">Oldest first</option>
+              </select>
+            </div>
           </div>
           <div class="row" id="monthPick" style="display:none">
             <div><label for="yearSel">Year</label><select id="yearSel"></select></div>
@@ -440,9 +459,9 @@
   var LOGO = "data:image/jpeg;base64,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";
 
   var rungs = [
-    {tier:"1+", legs:"Dani Olmo: 1+ Shots | Player Shots\nFabian Ruiz: 1+ Shots | Player Shots\nDani Olmo: 1+ Fouls Won | To Be Fouled", odds:"4/6", stake:"2.00"},
-    {tier:"2+", legs:"Dani Olmo: 2+ Shots | Player Shots\nFabian Ruiz: 2+ Shots | Player Shots\nDani Olmo: 2+ Fouls Won | To Be Fouled", odds:"5/1", stake:"0.75"},
-    {tier:"3+", legs:"Dani Olmo: 3+ Shots | Player Shots\nFabian Ruiz: 3+ Shots | Player Shots\nDani Olmo: 3+ Fouls Won | To Be Fouled", odds:"35/1", stake:"0.25"}
+    {tier:"1+", legs:"", odds:"", stake:"1.00"},
+    {tier:"2+", legs:"", odds:"", stake:"1.00"},
+    {tier:"3+", legs:"", odds:"", stake:"1.00"}
   ];
 
   var card=document.getElementById("card"), stage=document.querySelector(".stage-inner"), rungBox=document.getElementById("rungs");
@@ -465,7 +484,7 @@
           '<div><label>Stake</label><input data-f="stake" data-i="'+i+'" value="'+esc(r.stake)+'"></div>'+
         '</div>'+
         '<label>Legs &mdash; one per line, <b>|</b> adds the market underneath</label>'+
-        '<textarea data-f="legs" data-i="'+i+'">'+esc(r.legs)+'</textarea>'+
+        '<textarea data-f="legs" data-i="'+i+'" placeholder="Player Name: '+esc(r.tier)+' Shots | Player Shots">'+esc(r.legs)+'</textarea>'+
         '<div class="calc" data-calc="'+i+'"></div>';
       rungBox.appendChild(d);
     });
@@ -513,9 +532,9 @@
   var mode = "ladder";
 
   var stats = [
-    {label:"Saka fouls won", vals:"1,2,*1,0,0,*2,1,2,2", thr:"1", cap:"Last 10 starts"},
-    {label:"Tagliafico fouls won", vals:"4,1*,2,3,0*,3,0,1,2", thr:"1", cap:"Last 9"},
-    {label:"Tagliafico fouls", vals:"1,4,1,2,0*,1,2,0,3,1,2", thr:"1", cap:"Last 11"}
+    {label:"", vals:"", thr:"1", cap:""},
+    {label:"", vals:"", thr:"1", cap:""},
+    {label:"", vals:"", thr:"1", cap:""}
   ];
 
   var statBox = document.getElementById("stats");
@@ -525,11 +544,11 @@
     stats.forEach(function(s,i){
       var d=document.createElement("div"); d.className="rung";
       d.innerHTML='<div class="rung-head"><strong>Stat '+(i+1)+'</strong><button type="button" data-sdel="'+i+'">Remove</button></div>'+
-        '<label>Label</label><input data-sf="label" data-si="'+i+'" value="'+esc(s.label)+'">'+
-        '<label>Values &mdash; comma separated, * allowed</label><input data-sf="vals" data-si="'+i+'" value="'+esc(s.vals)+'">'+
+        '<label>Label</label><input data-sf="label" data-si="'+i+'" placeholder="Player Name fouls won" value="'+esc(s.label)+'">'+
+        '<label>Values &mdash; comma separated, * allowed</label><input data-sf="vals" data-si="'+i+'" placeholder="1,2,*1,0,3,2" value="'+esc(s.vals)+'">'+
         '<div class="row">'+
           '<div><label>Highlight from &mdash; blank for none</label><input data-sf="thr" data-si="'+i+'" value="'+esc(s.thr)+'"></div>'+
-          '<div><label>Caption &mdash; optional</label><input data-sf="cap" data-si="'+i+'" value="'+esc(s.cap)+'"></div>'+
+          '<div><label>Caption &mdash; optional</label><input data-sf="cap" data-si="'+i+'" placeholder="Last 10 starts" value="'+esc(s.cap)+'"></div>'+
         '</div>';
       statBox.appendChild(d);
     });
@@ -985,7 +1004,22 @@
       box.innerHTML='<div class="log-empty">Nothing settled in this filter yet.</div>';
       render(); return;
     }
-    box.innerHTML=list.map(function(l){
+    var sorted=list.slice().sort(function(a,b){
+      var d=new Date(b.ko)-new Date(a.ko);
+      return v("listOrder")==="old" ? -d : d;
+    });
+    var sizeSel=v("listSize"), cap;
+    if(sizeSel==="0") cap=0;
+    else if(sizeSel==="all") cap=sorted.length;
+    else cap=parseInt(sizeSel,10)||25;
+
+    var shown=sorted.slice(0,cap);
+    var head='<div class="list-head">Showing '+shown.length+' of '+sorted.length+
+             ' settled legs'+(cap<sorted.length?' \u2014 widen the bet list to see the rest':'')+'</div>';
+
+    if(cap===0){ box.innerHTML=head; render(); return; }
+
+    box.innerHTML=head+shown.map(function(l){
       var pl=legPL(l), d=pl>0?"up":pl<0?"down":"flat";
       return '<div class="log-row '+(pl>0?"settled":pl<0?"cancelled":"placed")+'" style="opacity:1">'+
         '<div class="log-top"><span class="log-fix">'+esc(l.home)+' v '+esc(l.away)+'</span>'+
@@ -1036,7 +1070,7 @@
     }
   });
   ["logView","periodFilter","leagueFilter","tierFilter","bookFilter",
-   "fromDate","toDate","yearSel","monthSel"].forEach(function(id){
+   "fromDate","toDate","yearSel","monthSel","listSize","listOrder"].forEach(function(id){
     document.getElementById(id).addEventListener("change",function(){
       var f=v("periodFilter");
       document.getElementById("customRange").style.display = f==="custom" ? "" : "none";
