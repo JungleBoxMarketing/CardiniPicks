@@ -26,6 +26,8 @@
   body{margin:0;background:var(--deep);color:var(--chalk);font-family:var(--mono);font-size:13px;padding:24px}
   .wrap{max-width:1260px;margin:0 auto;display:grid;grid-template-columns:400px 1fr;gap:32px;align-items:start}
   @media (max-width:960px){.wrap{grid-template-columns:1fr}}
+  .wrap.solo{grid-template-columns:1fr;max-width:760px}
+  .wrap.solo .stage{display:none}
 
   h1{font-family:var(--anton);font-size:34px;letter-spacing:.03em;text-transform:uppercase;margin:0 0 2px}
   .sub{color:var(--muted);margin:0 0 20px;font-size:12px}
@@ -38,7 +40,7 @@
   input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-  .modes{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
   .modes button{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:14px;
       background:var(--deep);color:var(--muted);border:1px solid var(--line);padding:10px 4px;cursor:pointer}
   .modes button[aria-pressed="true"]{background:var(--amber);color:var(--ink);border-color:var(--amber)}
@@ -168,6 +170,62 @@
   .d-minitem dd{margin:2px 0 0;font-family:var(--anton);font-size:46px;line-height:1;color:var(--chalk)}
   .d-legend{font-family:var(--mono);font-size:18px;letter-spacing:.1em;color:var(--muted);margin-top:14px}
 
+  /* ---- log manager (controls side) ---- */
+  .log-row{border:1px solid var(--line);border-left:4px solid var(--muted);background:var(--panel);padding:10px 12px;margin-bottom:8px}
+  .log-row.placed{border-left-color:var(--blue)}
+  .log-row.settled{border-left-color:var(--win)}
+  .log-row.cancelled{border-left-color:var(--loss);opacity:.55}
+  .log-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .log-fix{font-family:var(--display);font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+  .log-date{font-size:10px;color:var(--muted);letter-spacing:.1em;white-space:nowrap}
+  .log-pl{font-family:var(--display);font-weight:700;font-size:15px}
+  .log-pl.up{color:var(--win)} .log-pl.down{color:var(--loss)} .log-pl.flat{color:var(--muted)}
+  .log-acts{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .log-acts button{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+      background:var(--deep);border:1px solid var(--line);color:var(--muted);padding:5px 9px;cursor:pointer}
+  .log-acts button.on{background:var(--amber);border-color:var(--amber);color:var(--ink)}
+  .log-acts button.del{margin-left:auto;border-color:transparent}
+  .log-acts button.del:hover{color:var(--loss)}
+  .log-rung{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11px;color:var(--muted)}
+  .log-rung b{color:var(--chalk);font-weight:500;min-width:58px}
+  .log-rung .sp{margin-left:auto;display:flex;gap:4px}
+  .log-empty{color:var(--muted);font-size:12px;padding:10px 0;letter-spacing:.06em}
+  .sum-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+      border:1px solid var(--line);margin:4px 0 12px}
+  .sum-strip div{background:var(--panel);padding:9px 10px}
+  .sum-strip dt{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .sum-strip dd{margin:4px 0 0;font-family:var(--display);font-weight:700;font-size:17px;line-height:1}
+  .sum-strip dd.up{color:var(--win)} .sum-strip dd.down{color:var(--loss)}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+      background:var(--amber);color:var(--ink);font-family:var(--display);font-weight:700;
+      text-transform:uppercase;letter-spacing:.08em;font-size:14px;padding:12px 20px;z-index:120;
+      opacity:0;transition:opacity .18s,transform .18s;pointer-events:none;white-space:nowrap}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  .log-sub{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
+  .log-sel{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45}
+
+  /* ---- metrics card ---- */
+  .m-hero{text-align:center;margin-top:24px}
+  .m-label{font-family:var(--mono);font-size:22px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+  .m-big{font-family:var(--anton);font-size:150px;line-height:.86;margin-top:10px}
+  .m-big.up{color:var(--win)} .m-big.down{color:var(--loss)} .m-big.flat{color:var(--muted)}
+  .m-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border:2px solid var(--line);margin-top:22px}
+  .m-cell{background:rgba(14,41,71,.96);padding:20px 18px}
+  .m-cell dt{font-family:var(--mono);font-size:16px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .m-cell dd{margin:10px 0 0;font-family:var(--anton);font-size:46px;line-height:1}
+  .m-money{border:3px solid var(--amber);background:rgba(255,199,44,.09);padding:20px 30px;margin-top:20px;text-align:center}
+  .m-moneylab{font-family:var(--mono);font-size:21px;letter-spacing:.2em;color:var(--amber);text-transform:uppercase}
+  .m-moneyval{font-family:var(--anton);font-size:76px;line-height:1;margin-top:8px}
+  .m-chart{margin-top:24px;border:2px solid var(--line);background:rgba(11,34,64,.72);padding:18px 20px 12px}
+  .m-charttop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .m-charttop span{font-family:var(--mono);font-size:18px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+  .m-tot{display:flex;gap:34px;margin-top:12px;justify-content:center}
+  .m-tot div{text-align:center}
+  .m-tot dt{font-family:var(--mono);font-size:17px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+  .m-tot dd{margin:6px 0 0;font-family:var(--anton);font-size:52px;line-height:1}
+  .m-tot dd.up{color:var(--win)} .m-tot dd.down{color:var(--loss)}
+  .m-note{font-family:var(--mono);font-size:18px;letter-spacing:.08em;color:var(--muted);margin-top:18px;text-align:center;line-height:1.6}
+
   /* ---- save overlay (mobile-friendly) ---- */
   .ov{position:fixed;inset:0;background:rgba(5,15,29,.96);z-index:99;display:none;
       flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px}
@@ -193,23 +251,34 @@
         <div class="modes">
           <button type="button" data-mode="ladder" aria-pressed="true">Ladder</button>
           <button type="button" data-mode="data" aria-pressed="false">Data</button>
+          <button type="button" data-mode="log" aria-pressed="false">Log</button>
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset id="fs-head">
         <legend>Header</legend>
         <div class="row">
           <div><label for="brand">Group name</label><input id="brand" value="CardiniPicks"></div>
           <div><label for="logoIn">Swap logo</label><input id="logoIn" type="file" accept="image/*"></div>
         </div>
         <div class="row">
-          <div><label for="comp">Competition</label><input id="comp" value="International Friendly"></div>
-          <div><label for="ko">Kick-off</label><input id="ko" value="Sat 20:00"></div>
+          <div><label for="league">League</label>
+            <select id="league">
+              <option>Premier League</option>
+              <option>French League</option>
+              <option>Italian League</option>
+              <option>Spanish League</option>
+              <option>Combination</option>
+              <option>Other</option>
+            </select></div>
+          <div><label for="kickoff">Kick-off</label><input id="kickoff" type="datetime-local"></div>
         </div>
         <div class="row">
           <div><label for="home">Home</label><input id="home" value="Spain"></div>
           <div><label for="away">Away</label><input id="away" value="Argentina"></div>
         </div>
+        <div id="otherWrap" style="display:none"><label for="leagueOther">League name</label>
+          <input id="leagueOther" value=""></div>
         <div class="row">
           <div><label for="book">Bookmaker</label><input id="book" value="Bet365"></div>
           <div><label for="unit">Stake shown as</label>
@@ -218,7 +287,7 @@
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset id="fs-wm">
         <legend>Watermark</legend>
         <div class="row">
           <div><label for="wmText">Text</label><input id="wmText" value="Cardini Tips"></div>
@@ -258,6 +327,82 @@
         </select>
       </fieldset>
 
+      <fieldset id="fs-log">
+        <legend>Log</legend>
+        <div class="row">
+          <div><label for="perUnit">&pound; per unit</label><input id="perUnit" value="50"></div>
+          <div><label for="period">Card label &mdash; blank for auto</label><input id="period" value=""></div>
+        </div>
+        <label for="logView">Table</label>
+        <select id="logView">
+          <option value="placed">Placed bets</option>
+          <option value="results">Results</option>
+        </select>
+        <div id="resultFilters" style="display:none">
+          <div class="row">
+            <div><label for="periodFilter">Period</label>
+              <select id="periodFilter">
+                <option value="all">All time</option>
+                <option value="week">This week</option>
+                <option value="lastweek">Last week</option>
+                <option value="7">Last 7 days</option>
+                <option value="14">Last 2 weeks</option>
+                <option value="30">Last 30 days</option>
+                <option value="90">Last 3 months</option>
+                <option value="month">This month</option>
+                <option value="lastmonth">Last month</option>
+                <option value="year">This year</option>
+                <option value="specific">Pick a month</option>
+                <option value="custom">Custom range</option>
+              </select></div>
+            <div><label for="leagueFilter">League</label>
+              <select id="leagueFilter"><option value="all">All leagues</option></select></div>
+          </div>
+          <div class="row" id="monthPick" style="display:none">
+            <div><label for="yearSel">Year</label><select id="yearSel"></select></div>
+            <div><label for="monthSel">Month</label><select id="monthSel"></select></div>
+          </div>
+          <div class="row" id="customRange" style="display:none">
+            <div><label for="fromDate">From</label><input id="fromDate" type="date"></div>
+            <div><label for="toDate">To</label><input id="toDate" type="date"></div>
+          </div>
+          <div class="row">
+            <div><label for="tierFilter">Tier</label>
+              <select id="tierFilter"><option value="all">All tiers</option></select></div>
+            <div><label for="bookFilter">Bookmaker</label>
+              <select id="bookFilter"><option value="all">All books</option></select></div>
+          </div>
+          <div id="statPanel"></div>
+          <div id="leagueBreak"></div>
+          <div id="tierBreak"></div>
+          <label>Card shows &mdash; four boxes</label>
+          <div class="row"><select id="mA"></select><select id="mB"></select></div>
+          <div class="row"><select id="mC"></select><select id="mD"></select></div>
+        </div>
+        <div id="logList"></div>
+        <div class="row">
+          <button type="button" class="act ghost" id="csv">Export CSV</button>
+          <button type="button" class="act ghost" id="backup">Backup file</button>
+        </div>
+        <label for="restore">Restore from a backup</label>
+        <input id="restore" type="file" accept="application/json">
+        <button type="button" class="act ghost" id="wipe" style="margin-top:10px">Clear log</button>
+        <p class="hint">Saved on this device only. Export the CSV weekly and keep it somewhere safe &mdash; this record is what the VIP group will be sold on.</p>
+      </fieldset>
+
+      <fieldset id="fs-sync">
+        <legend>Cloud &amp; Telegram</legend>
+        <label for="wkUrl">Worker URL</label>
+        <input id="wkUrl" placeholder="https://cardini-relay.xxx.workers.dev">
+        <label for="wkPass">Passphrase</label>
+        <input id="wkPass" type="password" placeholder="the one set in Cloudflare">
+        <div class="row">
+          <button type="button" class="act ghost" id="wkTest">Connect</button>
+          <button type="button" class="act ghost" id="wkPull">Pull now</button>
+        </div>
+        <p class="hint" id="wkStatus">Not connected. Bets are saved on this device only.</p>
+      </fieldset>
+
       <fieldset id="fs-min">
         <legend>Lowest odds to take &mdash; optional</legend>
         <div class="row">
@@ -266,7 +411,11 @@
         </div>
       </fieldset>
 
-      <button type="button" class="act" id="dl">Download PNG</button>
+      <div class="row3" id="ladderActs">
+        <button type="button" class="act" id="dl">Export &amp; log</button>
+        <button type="button" class="act ghost" id="dlOnly">Export only</button>
+        <button type="button" class="act ghost" id="logOnly">Log only</button>
+      </div>
       <p class="hint">Odds take fractional (<b>5/1</b>) or decimal (<b>6.00</b>). Highest-odds rung is flagged automatically as the longshot. Watermark tiles across the whole card, so a cropped screenshot still carries the name.</p>
     </div>
   </div>
@@ -274,11 +423,14 @@
   <div class="stage"><div class="stage-inner"><div id="card"></div></div></div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <div class="ov" id="ov">
   <img id="ovImg" alt="Ladder card ready to save">
   <p>Press and hold the image, then <b>Add to Photos</b>. On desktop, use Save image.</p>
   <div class="btns">
     <a id="ovDl" download="ladder.png" href="#">Save file</a>
+    <button type="button" id="ovSend">Send to Telegram</button>
     <button type="button" id="ovClose">Close</button>
   </div>
 </div>
@@ -343,7 +495,7 @@
     var f=e.target.files[0]; if(!f)return;
     var r=new FileReader(); r.onload=function(){LOGO=r.result;render();}; r.readAsDataURL(f);
   });
-  ["brand","comp","ko","home","away","book","unit","wmText","wmStrength","handle"].forEach(function(id){
+  ["brand","league","leagueOther","kickoff","home","away","book","unit","wmText","wmStrength","handle"].forEach(function(id){
     var el=document.getElementById(id);
     el.addEventListener("input",function(){updateCalcs();render();});
     el.addEventListener("change",function(){updateCalcs();render();});
@@ -406,6 +558,15 @@
       });
       document.getElementById("fs-rungs").style.display = mode==="ladder"?"":"none";
       document.getElementById("fs-data").style.display  = mode==="data"?"":"none";
+      document.getElementById("fs-log").style.display   = mode==="log"?"":"none";
+      document.getElementById("fs-sync").style.display  = mode==="log"?"":"none";
+      document.getElementById("fs-head").style.display  = mode==="log"?"none":"";
+      document.getElementById("fs-wm").style.display    = mode==="log"?"none":"";
+      document.getElementById("dlOnly").style.display   = mode==="ladder"?"":"none";
+      document.getElementById("logOnly").style.display  = mode==="ladder"?"":"none";
+      document.getElementById("dl").textContent = mode==="ladder"?"Export & log":"Download PNG";
+      document.getElementById("fs-min").style.display   = mode==="log"?"none":"";
+      if(mode==="log") buildLog(); else applyChrome();
       
       render();
     });
@@ -469,7 +630,7 @@
     var minHTML = minStrip();
 
     return top("Data")+
-      '<div class="layer c-fixture"><div class="c-comp">'+esc(v("comp"))+'</div>'+
+      '<div class="layer c-fixture"><div class="c-comp">'+esc(leagueName())+'</div>'+
         '<div class="c-teams">'+esc(v("home"))+' <em>v</em> '+esc(v("away"))+'</div></div>'+
       (intro?'<div class="layer d-intro">'+esc(intro)+'</div>':'')+
       '<div class="layer d-body">'+blocks+noteHTML+
@@ -480,8 +641,625 @@
     return '<div class="layer c-top">'+
       '<img class="c-logo" src="'+LOGO+'" alt="">'+
       '<div><div class="c-name">'+esc(v("brand"))+'</div><div class="c-kind">'+tag+'</div></div>'+
-      '<div class="c-topright"><b>'+esc(v("book"))+'</b><br>'+esc(v("ko"))+'</div></div>';
+      '<div class="c-topright"><b>'+esc(v("book"))+'</b><br>'+esc(koText())+'</div></div>';
   }
+
+  /* ================= LOG ================= */
+  var KEY="cardini_legs_v2";
+  var legs=[];
+  try{ legs=JSON.parse(localStorage.getItem(KEY)||"[]"); }catch(e){ legs=[]; }
+  function saveLocal(){ try{ localStorage.setItem(KEY,JSON.stringify(legs)); }catch(e){} }
+  function saveLog(){ saveLocal(); pushSoon(); }
+
+  var LEAGUES=["Premier League","French League","Italian League","Spanish League","Combination","Other"];
+
+  function leagueName(){
+    var s=v("league")||LEAGUES[0];
+    return s==="Other" ? (v("leagueOther")||"Other") : s;
+  }
+  function koText(){
+    var raw=v("kickoff"); if(!raw) return "";
+    var d=new Date(raw); if(isNaN(d)) return raw;
+    var days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    return days[d.getDay()]+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+  }
+  function koFull(iso){
+    var d=new Date(iso); if(isNaN(d)) return iso||"";
+    return d.toLocaleDateString(undefined,{day:"2-digit",month:"short"})+" "+
+           String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+  }
+
+  function addToLog(){
+    var iso=v("kickoff")||new Date().toISOString().slice(0,16);
+    var dupe=legs.some(function(l){
+      return l.home===v("home") && l.away===v("away") && l.ko===iso && l.status!=="cancelled";
+    });
+    if(dupe && !confirm("This fixture and kick-off is already in the log. Add it again anyway?")) return 0;
+    var betId=Date.now().toString(36);
+    var added=0;
+    rungs.forEach(function(r,i){
+      if(!String(r.odds).trim() && !String(r.stake).trim()) return;
+      legs.push({
+        id:betId+"-"+i, betId:betId, created:new Date().toISOString(), ko:iso,
+        league:leagueName(), home:v("home"), away:v("away"), book:v("book"), unit:v("unit"),
+        tier:r.tier, odds:r.odds, stake:r.stake, legs:r.legs, status:"placed", u:Date.now()
+      });
+      added++;
+    });
+    saveLog(); refreshLeagueFilter(); fillMonthPickers(); buildLog();
+    return added;
+  }
+
+  /* ---- cloud sync ---- */
+  var WK={url:"",pass:"",on:false};
+  try{
+    WK.url=localStorage.getItem("cardini_wk_url")||"";
+    WK.pass=localStorage.getItem("cardini_wk_pass")||"";
+  }catch(e){}
+
+  function wkStatus(msg,good){
+    var el=document.getElementById("wkStatus");
+    el.textContent=msg;
+    el.style.color = good===true ? "var(--win)" : good===false ? "var(--loss)" : "var(--muted)";
+  }
+  function wkCall(action,extra){
+    if(!WK.url||!WK.pass) return Promise.reject(new Error("Not connected"));
+    return fetch(WK.url,{
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(Object.assign({pass:WK.pass,action:action},extra||{}))
+    }).then(function(r){return r.json();}).then(function(j){
+      if(!j.ok) throw new Error(j.error||"Failed");
+      return j;
+    });
+  }
+  function touch(l){ l.u=Date.now(); return l; }
+
+  var toastTimer=null;
+  function toast(msg){
+    var el=document.getElementById("toast");
+    el.textContent=msg; el.classList.add("on");
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){ el.classList.remove("on"); },2600);
+  }
+
+  var pushTimer=null;
+  function pushSoon(){
+    if(!WK.on) return;
+    clearTimeout(pushTimer);
+    pushTimer=setTimeout(function(){
+      wkCall("save",{legs:legs}).then(function(j){
+        legs=j.legs; saveLocal();
+        wkStatus("Synced \u2014 "+j.count+" legs in the cloud",true);
+      }).catch(function(e){ wkStatus("Sync failed: "+e.message+" (saved on this device)",false); });
+    },1500);
+  }
+
+  var SETTLED={won:1,lost:1,cashed:1};
+  function legPL(l){
+    var st=parseFloat(l.stake)||0, m=dec(l.odds);
+    if(l.status==="won")  return st*m-st;
+    if(l.status==="lost") return -st;
+    if(l.status==="cashed") return (parseFloat(l.cashout)||0)-st;
+    return 0;
+  }
+  function legStake(l){
+    return SETTLED[l.status] ? (parseFloat(l.stake)||0) : 0;
+  }
+
+  function inPeriod(l,f){
+    if(f==="all") return true;
+    var d=new Date(l.ko); if(isNaN(d)) return true;
+    var now=new Date();
+    if(f==="month") return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
+    if(f==="lastmonth"){
+      var lm=new Date(now.getFullYear(), now.getMonth()-1, 1);
+      return d.getMonth()===lm.getMonth() && d.getFullYear()===lm.getFullYear();
+    }
+    if(f==="year") return d.getFullYear()===now.getFullYear();
+    if(f==="week" || f==="lastweek"){
+      var s=new Date(now); var dow=(s.getDay()+6)%7;   // Monday start
+      s.setDate(s.getDate()-dow); s.setHours(0,0,0,0);
+      if(f==="lastweek") s.setDate(s.getDate()-7);
+      var e=new Date(s); e.setDate(s.getDate()+7);
+      return d>=s && d<e;
+    }
+    if(f==="specific"){
+      var yy=parseInt(v("yearSel"),10), mm=parseInt(v("monthSel"),10);
+      return d.getFullYear()===yy && d.getMonth()===mm;
+    }
+    if(f==="custom"){
+      var a=v("fromDate"), b=v("toDate");
+      if(a && d < new Date(a+"T00:00")) return false;
+      if(b && d > new Date(b+"T23:59")) return false;
+      return true;
+    }
+    var days=parseInt(f,10);
+    if(!isFinite(days)) return true;
+    return (now-d)/86400000 <= days && d<=now;
+  }
+  function settledLegs(){
+    var pf=v("periodFilter")||"all", lf=v("leagueFilter")||"all",
+        tf=v("tierFilter")||"all", bf=v("bookFilter")||"all";
+    return legs.filter(function(l){
+      if(!SETTLED[l.status]) return false;
+      if(lf!=="all" && l.league!==lf) return false;
+      if(tf!=="all" && l.tier!==tf) return false;
+      if(bf!=="all" && l.book!==bf) return false;
+      return inPeriod(l,pf);
+    }).sort(function(a,b){ return new Date(b.ko)-new Date(a.ko); });
+  }
+
+  function metrics(list){
+    var staked=0, profit=0, won=0, lost=0, cashed=0, oddsSum=0, oddsN=0, best=0, worst=0, bets={};
+    list.forEach(function(l){
+      staked+=legStake(l);
+      var p=legPL(l); profit+=p;
+      if(p>best) best=p; if(p<worst) worst=p;
+      if(l.status==="won") won++; else if(l.status==="lost") lost++; else if(l.status==="cashed") cashed++;
+      var m=dec(l.odds); if(m){ oddsSum+=m; oddsN++; }
+      if(l.betId) bets[l.betId]=1;
+    });
+    // streaks run in chronological order
+    var chron=list.slice().sort(function(a,b){return new Date(a.ko)-new Date(b.ko);});
+    var cw=0,cl=0,mw=0,ml=0;
+    chron.forEach(function(l){
+      if(l.status==="won"){ cw++; cl=0; if(cw>mw) mw=cw; }
+      else { cl++; cw=0; if(cl>ml) ml=cl; }
+    });
+    var nBets=Object.keys(bets).length;
+    return {
+      legs:list.length, bets:nBets, staked:staked, profit:profit, won:won, lost:lost, cashed:cashed,
+      roi: staked ? (profit/staked*100) : 0,
+      unitsWon: list.reduce(function(a,l){var p=legPL(l); return a+(p>0?p:0);},0),
+      unitsLost: list.reduce(function(a,l){var p=legPL(l); return a+(p<0?-p:0);},0),
+      strike: list.length ? (won/list.length*100) : 0,
+      avgOdds: oddsN ? (oddsSum/oddsN) : 0,
+      avgStake: list.length ? (staked/list.length) : 0,
+      perBet: nBets ? (profit/nBets) : 0,
+      best:best, worst:worst, winStreak:mw, loseStreak:ml
+    };
+  }
+
+  var METRICS={
+    roi:      {label:"Return on investment", fmt:function(m){return m.roi.toFixed(1)+"%";}},
+    profit:   {label:"Units profit",         fmt:function(m){return (m.profit>0?"+":"")+m.profit.toFixed(2);}},
+    staked:   {label:"Units staked",         fmt:function(m){return m.staked.toFixed(2);}},
+    legs:     {label:"Legs settled",         fmt:function(m){return String(m.legs);}},
+    bets:     {label:"Ladders placed",       fmt:function(m){return String(m.bets);}},
+    wl:       {label:"Won / lost",           fmt:function(m){return m.won+" / "+m.lost;}},
+    cashed:   {label:"Cashed out",           fmt:function(m){return String(m.cashed);}},
+    unitsWon: {label:"Units won",            fmt:function(m){return "+"+m.unitsWon.toFixed(2);}},
+    unitsLost:{label:"Units lost",           fmt:function(m){return "-"+m.unitsLost.toFixed(2);}},
+    strike:   {label:"Strike rate",          fmt:function(m){return m.strike.toFixed(1)+"%";}},
+    avgOdds:  {label:"Average odds",         fmt:function(m){return m.avgOdds.toFixed(2);}},
+    avgStake: {label:"Average stake",        fmt:function(m){return m.avgStake.toFixed(2)+"u";}},
+    perBet:   {label:"Profit per ladder",    fmt:function(m){return (m.perBet>0?"+":"")+m.perBet.toFixed(2)+"u";}},
+    best:     {label:"Best single leg",      fmt:function(m){return "+"+m.best.toFixed(2)+"u";}},
+    winStreak:{label:"Longest win run",      fmt:function(m){return String(m.winStreak);}},
+    loseStreak:{label:"Longest losing run",  fmt:function(m){return String(m.loseStreak);}}
+  };
+  var METRIC_DEFAULTS=["roi","staked","legs","wl"];
+
+  function fillMetricPickers(){
+    ["mA","mB","mC","mD"].forEach(function(id,i){
+      var sel=document.getElementById(id); if(!sel||sel.options.length) return;
+      sel.innerHTML=Object.keys(METRICS).map(function(k){
+        return '<option value="'+k+'"'+(k===METRIC_DEFAULTS[i]?' selected':'')+'>'+METRICS[k].label+'</option>';
+      }).join("");
+      sel.addEventListener("change",render);
+    });
+  }
+
+  function breakdown(list,keyFn,title,target){
+    var by={};
+    list.forEach(function(l){
+      var k=keyFn(l)||"\u2014";
+      by[k]=by[k]||{p:0,s:0,n:0,w:0};
+      by[k].p+=legPL(l); by[k].s+=legStake(l); by[k].n++;
+      if(l.status==="won") by[k].w++;
+    });
+    var rows=Object.keys(by).map(function(k){
+      var b=by[k];
+      return {name:k,p:b.p,n:b.n,w:b.w,roi:b.s?b.p/b.s*100:0};
+    }).sort(function(a,b){return b.p-a.p;});
+    document.getElementById(target).innerHTML = rows.length
+      ? '<label>'+title+'</label>'+rows.map(function(r){
+          var d=r.p>0?"up":r.p<0?"down":"flat";
+          return '<div class="log-rung" style="margin-top:4px"><b style="min-width:110px">'+esc(r.name)+'</b>'+
+                 '<span>'+r.w+'/'+r.n+'</span><span>'+r.roi.toFixed(1)+'%</span>'+
+                 '<span class="sp"><span class="log-pl '+d+'">'+(r.p>0?"+":"")+r.p.toFixed(2)+'u</span></span></div>';
+        }).join("") : "";
+  }
+
+  function refreshLeagueFilter(){
+    var sel=document.getElementById("leagueFilter"); if(!sel) return;
+    var cur=sel.value||"all";
+    var seen={}; legs.forEach(function(l){ if(l.league) seen[l.league]=1; });
+    var names=Object.keys(seen).sort();
+    sel.innerHTML='<option value="all">All leagues</option>'+
+      names.map(function(n){return '<option'+(n===cur?' selected':'')+'>'+esc(n)+'</option>';}).join("");
+    if(cur==="all") sel.value="all";
+
+    [["tierFilter","tier","All tiers"],["bookFilter","book","All books"]].forEach(function(cfg){
+      var s=document.getElementById(cfg[0]); if(!s) return;
+      var c=s.value||"all", seen2={};
+      legs.forEach(function(l){ if(l[cfg[1]]) seen2[l[cfg[1]]]=1; });
+      var ns=Object.keys(seen2).sort();
+      s.innerHTML='<option value="all">'+cfg[2]+'</option>'+
+        ns.map(function(n){return '<option'+(n===c?' selected':'')+'>'+esc(n)+'</option>';}).join("");
+    });
+  }
+
+  var STATUS_LABEL={won:"won",lost:"lost",cashed:"cashed out",cancelled:"cancel"};
+  function statusBtns(l){
+    return ["won","lost","cashed","cancelled"].map(function(s){
+      return '<button data-id="'+l.id+'" data-set="'+s+'" class="'+(l.status===s?"on":"")+'">'+
+             STATUS_LABEL[s]+'</button>';
+    }).join("");
+  }
+
+  function applyChrome(){
+    var view=v("logView")||"placed";
+    var tableOnly = (mode==="log" && view==="placed");
+    document.querySelector(".wrap").classList.toggle("solo", tableOnly);
+    document.getElementById("ladderActs").style.display = tableOnly ? "none" : "";
+  }
+
+  function buildLog(){
+    var box=document.getElementById("logList");
+    var view=v("logView")||"placed";
+    document.getElementById("resultFilters").style.display = view==="results"?"":"none";
+    applyChrome();
+
+    if(view==="placed"){
+      document.getElementById("leagueBreak").innerHTML="";
+      document.getElementById("tierBreak").innerHTML="";
+      document.getElementById("statPanel").innerHTML="";
+      var open=legs.filter(function(l){return l.status==="placed";});
+      if(!open.length){
+        box.innerHTML='<div class="log-empty">Nothing open. Log a ladder card and every rung lands here waiting to be marked.</div>';
+        render(); return;
+      }
+      // group rungs back into their ladders, soonest kick-off first
+      var groups={};
+      open.forEach(function(l){ (groups[l.betId]=groups[l.betId]||[]).push(l); });
+      var order=Object.keys(groups).sort(function(a,b){
+        return new Date(groups[a][0].ko)-new Date(groups[b][0].ko);
+      });
+      var allTime=metrics(legs.filter(function(l){return SETTLED[l.status];}));
+      var atRisk=open.reduce(function(a,l){return a+(parseFloat(l.stake)||0);},0);
+      var pd=allTime.profit>0?"up":allTime.profit<0?"down":"flat";
+      box.innerHTML='<div class="sum-strip">'+
+          '<div><dt>Open</dt><dd>'+open.length+' legs</dd></div>'+
+          '<div><dt>At risk</dt><dd>'+atRisk.toFixed(2)+'u</dd></div>'+
+          '<div><dt>All-time</dt><dd class="'+pd+'">'+(allTime.profit>0?"+":"")+
+            allTime.profit.toFixed(2)+'u</dd></div>'+
+          '<div><dt>ROI</dt><dd>'+allTime.roi.toFixed(1)+'%</dd></div>'+
+        '</div>'+
+        '<div class="log-empty">'+order.length+' '+
+        (order.length===1?"ladder":"ladders")+' waiting. Full analysis is in the Results table.</div>'+
+        order.map(function(gid){
+        var g=groups[gid], f=g[0];
+        var risk=g.reduce(function(a,l){return a+(parseFloat(l.stake)||0);},0);
+        return '<div class="log-row placed">'+
+          '<div class="log-top"><span class="log-fix">'+esc(f.home)+' v '+esc(f.away)+'</span>'+
+          '<span class="log-date">'+esc(koFull(f.ko))+'</span></div>'+
+          '<div class="log-rung"><span>'+esc(f.league)+'</span><span>'+esc(f.book)+'</span>'+
+          '<span class="sp">'+risk.toFixed(2)+f.unit+' at risk</span></div>'+
+          g.map(function(l){
+            var sel=String(l.legs||"").split("\n").filter(function(x){return x.trim();})
+              .map(function(x){return esc(x.split("|")[0].trim());}).join(" &middot; ");
+            return '<div class="log-sub">'+
+              '<div class="log-rung"><b>'+esc(l.tier)+' @ '+esc(l.odds)+'</b>'+
+              '<span>'+esc(l.stake)+l.unit+'</span>'+
+              '<span class="sp"><span class="log-date">returns '+
+              ((parseFloat(l.stake)||0)*dec(l.odds)).toFixed(2)+l.unit+'</span></span></div>'+
+              (sel?'<div class="log-sel">'+sel+'</div>':'')+
+              '<div class="log-acts">'+statusBtns(l)+
+              '<button data-id="'+l.id+'" data-del="1" class="del">delete</button></div></div>';
+          }).join("")+
+          '<div class="log-acts" style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">'+
+            '<span style="font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;align-self:center">Whole ladder</span>'+
+            '<button data-bulk="won" data-bet="'+gid+'">all won</button>'+
+            '<button data-bulk="lost" data-bet="'+gid+'">all lost</button>'+
+            '<button data-bulk="cancelled" data-bet="'+gid+'">cancel all</button>'+
+          '</div></div>';
+      }).join("");
+      render(); return;
+    }
+
+    var list=settledLegs();
+    var m=metrics(list);
+
+    breakdown(list,function(l){return l.league;},"By league","leagueBreak");
+    breakdown(list,function(l){return l.tier;},"By tier","tierBreak");
+
+    document.getElementById("statPanel").innerHTML =
+      '<label>Everything in this filter</label>'+
+      Object.keys(METRICS).map(function(k){
+        return '<div class="log-rung" style="margin-top:3px"><b style="min-width:150px">'+
+               METRICS[k].label+'</b><span class="sp">'+METRICS[k].fmt(m)+'</span></div>';
+      }).join("");
+
+    if(!list.length){
+      box.innerHTML='<div class="log-empty">Nothing settled in this filter yet.</div>';
+      render(); return;
+    }
+    box.innerHTML=list.map(function(l){
+      var pl=legPL(l), d=pl>0?"up":pl<0?"down":"flat";
+      return '<div class="log-row '+(pl>0?"settled":pl<0?"cancelled":"placed")+'" style="opacity:1">'+
+        '<div class="log-top"><span class="log-fix">'+esc(l.home)+' v '+esc(l.away)+'</span>'+
+        '<span class="log-date">'+esc(koFull(l.ko))+'</span></div>'+
+        '<div class="log-rung"><b>'+esc(l.tier)+' @ '+esc(l.odds)+'</b>'+
+        '<span>'+esc(l.stake)+l.unit+'</span><span>'+esc(l.league)+'</span>'+
+        '<span class="sp"><span class="log-pl '+d+'">'+(pl>0?"+":"")+pl.toFixed(2)+'u</span></span></div>'+
+        (l.legs?'<div class="log-sel">'+String(l.legs).split("\n").filter(function(x){return x.trim();})
+          .map(function(x){return esc(x.split("|")[0].trim());}).join(" &middot; ")+'</div>':'')+
+        '<div class="log-acts">'+statusBtns(l)+
+        '<button data-id="'+l.id+'" data-del="1" class="del">delete</button></div></div>';
+    }).join("");
+    render();
+  }
+
+  document.getElementById("logList").addEventListener("click",function(e){
+    var bulk=e.target.dataset.bulk;
+    if(bulk){
+      var bid=e.target.dataset.bet;
+      var n=0;
+      legs.forEach(function(l){ if(l.betId===bid && l.status==="placed"){ l.status=bulk; touch(l); n++; } });
+      saveLog(); refreshLeagueFilter(); buildLog();
+      toast(n+" legs marked "+bulk+(bulk==="cancelled"?"":" \u2014 now in Results"));
+      return;
+    }
+    var id=e.target.dataset.id; if(!id) return;
+    var l=legs.filter(function(x){return x.id===id;})[0]; if(!l) return;
+    if(e.target.dataset.del){
+      legs=legs.filter(function(x){return x.id!==id;});
+    } else {
+      var s=e.target.dataset.set;
+      if(s==="cashed" && l.status!=="cashed"){
+        var got=prompt("Units returned, including stake (staked "+l.stake+"u):", l.stake);
+        if(got===null) return;
+        var num=parseFloat(got);
+        if(!isFinite(num)||num<0){ alert("Enter a number, e.g. 1.40"); return; }
+        l.cashout=num; l.status="cashed"; touch(l);
+      } else {
+        l.status = l.status===s ? "placed" : s; touch(l);
+      }
+    }
+    saveLog(); refreshLeagueFilter(); buildLog();
+    if(l && SETTLED[l.status]){
+      var pl=legPL(l);
+      toast(l.status.toUpperCase()+" "+(pl>0?"+":"")+pl.toFixed(2)+"u \u2014 now in Results");
+    } else if(l && l.status==="cancelled"){
+      toast("Cancelled \u2014 excluded from all figures");
+    }
+  });
+  ["logView","periodFilter","leagueFilter","tierFilter","bookFilter",
+   "fromDate","toDate","yearSel","monthSel"].forEach(function(id){
+    document.getElementById(id).addEventListener("change",function(){
+      var f=v("periodFilter");
+      document.getElementById("customRange").style.display = f==="custom" ? "" : "none";
+      document.getElementById("monthPick").style.display   = f==="specific" ? "" : "none";
+      buildLog();
+    });
+  });
+  ["perUnit","period"].forEach(function(id){
+    document.getElementById(id).addEventListener("input",render);
+  });
+
+  document.getElementById("wkUrl").value=WK.url;
+  document.getElementById("wkPass").value=WK.pass;
+
+  function wkConnect(){
+    WK.url=v("wkUrl").replace(/\/+$/,""); WK.pass=v("wkPass");
+    try{
+      localStorage.setItem("cardini_wk_url",WK.url);
+      localStorage.setItem("cardini_wk_pass",WK.pass);
+    }catch(e){}
+    if(!WK.url||!WK.pass){ wkStatus("Enter the Worker URL and passphrase.",false); return; }
+    wkStatus("Connecting\u2026");
+    return wkCall("ping").then(function(j){
+      WK.on=true;
+      wkStatus("Connected"+(j.kv?"":" \u2014 warning: KV not bound, nothing will save")+
+               (j.telegram?"":" \u2014 Telegram not set up"), j.kv);
+      return wkPull(true);
+    }).catch(function(e){ WK.on=false; wkStatus("Could not connect: "+e.message,false); });
+  }
+
+  function wkPull(quiet){
+    return wkCall("load").then(function(j){
+      var added=0;
+      (j.legs||[]).forEach(function(l){
+        if(!l||!l.id) return;
+        var mine=legs.filter(function(x){return x.id===l.id;})[0];
+        if(!mine){ legs.push(l); added++; }
+        else if((l.u||0)>(mine.u||0)){ Object.assign(mine,l); }
+      });
+      saveLocal(); refreshLeagueFilter(); fillMonthPickers(); buildLog();
+      if(!quiet) wkStatus("Pulled "+(j.legs||[]).length+" legs, "+added+" new here",true);
+      return j;
+    }).catch(function(e){ wkStatus("Pull failed: "+e.message,false); });
+  }
+
+  document.getElementById("wkTest").addEventListener("click",function(){ wkConnect(); });
+  document.getElementById("wkPull").addEventListener("click",function(){ wkPull(false); });
+  if(WK.url && WK.pass) wkConnect();
+
+  document.getElementById("ovSend").addEventListener("click",function(){
+    var b=this, old=b.textContent;
+    var img=document.getElementById("ovImg").src;
+    if(!WK.url||!WK.pass){ alert("Add the Worker URL and passphrase under Log \u2192 Cloud & Telegram first."); return; }
+    b.textContent="Sending\u2026"; b.disabled=true;
+    var cap = mode==="log"
+      ? periodLabel()+" \u2014 "+metrics(settledLegs()).profit.toFixed(2)+"u"
+      : v("home")+" v "+v("away")+" \u2014 "+koText();
+    wkCall("send",{image:img,caption:cap})
+      .then(function(){ b.textContent="Sent"; })
+      .catch(function(e){ b.textContent="Failed"; alert("Telegram: "+e.message); })
+      .finally(function(){ setTimeout(function(){ b.textContent=old; b.disabled=false; },1500); });
+  });
+
+  document.getElementById("backup").addEventListener("click",function(){
+    var blob=new Blob([JSON.stringify({v:2,saved:new Date().toISOString(),legs:legs},null,1)],
+                      {type:"application/json"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="cardini-backup-"+new Date().toISOString().slice(0,10)+".json";
+    a.click();
+  });
+
+  document.getElementById("restore").addEventListener("change",function(e){
+    var f=e.target.files[0]; if(!f) return;
+    var rd=new FileReader();
+    rd.onload=function(){
+      try{
+        var data=JSON.parse(rd.result);
+        var incoming=Array.isArray(data)?data:(data.legs||[]);
+        if(!incoming.length){ alert("No bets found in that file."); return; }
+        var have={}; legs.forEach(function(l){ have[l.id]=1; });
+        var added=0;
+        incoming.forEach(function(l){ if(l && l.id && !have[l.id]){ legs.push(l); added++; } });
+        saveLog(); refreshLeagueFilter(); buildLog();
+        alert("Restored "+added+" new legs. "+(incoming.length-added)+" were already here.");
+      }catch(err){ alert("That file could not be read."); }
+      e.target.value="";
+    };
+    rd.readAsText(f);
+  });
+
+  document.getElementById("wipe").addEventListener("click",function(){
+    if(!legs.length) return;
+    if(confirm("Delete all "+legs.length+" logged legs? This cannot be undone.")){
+      legs=[]; saveLog(); refreshLeagueFilter(); buildLog();
+    }
+  });
+
+  document.getElementById("csv").addEventListener("click",function(){
+    var head="kickoff,league,home,away,bookmaker,tier,selections,odds,stake_units,status,cashout_units,profit_units\n";
+    var body=legs.slice().sort(function(a,b){return new Date(a.ko)-new Date(b.ko);}).map(function(l){
+      return [l.ko,l.league,l.home,l.away,l.book,l.tier,
+              String(l.legs||"").replace(/\n/g," / "),
+              l.odds,l.stake,l.status,(l.cashout!==undefined?l.cashout:""),legPL(l).toFixed(2)]
+        .map(function(x){return '"'+String(x).replace(/"/g,'""')+'"';}).join(",");
+    }).join("\n");
+    var blob=new Blob([head+body],{type:"text/csv"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="cardini-results-"+new Date().toISOString().slice(0,10)+".csv";
+    a.click();
+  });
+
+  function chartSVG(list){
+    var chron=list.slice().sort(function(a,b){return new Date(a.ko)-new Date(b.ko);});
+    if(chron.length<2) return "";
+    var W=934, H=300, run=0, pts=[{x:0,y:0}];
+    chron.forEach(function(l,i){ run+=legPL(l); pts.push({x:i+1,y:run}); });
+
+    var ys=pts.map(function(p){return p.y;});
+    var lo=Math.min.apply(null,ys), hi=Math.max.apply(null,ys);
+    if(hi===lo){ hi=lo+1; lo=lo-1; }
+    var pad=(hi-lo)*0.12; hi+=pad; lo-=pad;
+    var n=pts.length-1;
+    var X=function(i){ return (i/n)*W; };
+    var Y=function(y){ return H-((y-lo)/(hi-lo))*H; };
+
+    var line=pts.map(function(p,i){return (i?"L":"M")+X(p.x).toFixed(1)+" "+Y(p.y).toFixed(1);}).join(" ");
+    var area=line+" L"+W+" "+Y(lo).toFixed(1)+" L0 "+Y(lo).toFixed(1)+" Z";
+    var zero=(0>=lo&&0<=hi) ? '<line x1="0" y1="'+Y(0).toFixed(1)+'" x2="'+W+'" y2="'+Y(0).toFixed(1)+
+             '" stroke="#7E9BBE" stroke-width="2" stroke-dasharray="8 8" opacity=".6"/>' : "";
+    var end=pts[pts.length-1];
+    var up=end.y>=0;
+
+    return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">'+
+      '<stop offset="0%" stop-color="'+(up?"#2ED08A":"#FF6060")+'" stop-opacity=".38"/>'+
+      '<stop offset="100%" stop-color="'+(up?"#2ED08A":"#FF6060")+'" stop-opacity="0"/>'+
+      '</linearGradient></defs>'+
+      '<path d="'+area+'" fill="url(#g)"/>'+ zero +
+      '<path d="'+line+'" fill="none" stroke="'+(up?"#2ED08A":"#FF6060")+
+      '" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>'+
+      '<circle cx="'+X(end.x).toFixed(1)+'" cy="'+Y(end.y).toFixed(1)+'" r="10" fill="#FFC72C"/>'+
+      '</svg>';
+  }
+
+  var MONTHS=["January","February","March","April","May","June",
+              "July","August","September","October","November","December"];
+
+  function periodLabel(){
+    var manual=v("period"); if(manual) return manual;
+    var f=v("periodFilter")||"all", now=new Date();
+    if(f==="all") return "All time";
+    if(f==="week") return "This week";
+    if(f==="lastweek") return "Last week";
+    if(f==="month") return MONTHS[now.getMonth()]+" "+now.getFullYear();
+    if(f==="lastmonth"){ var lm=new Date(now.getFullYear(),now.getMonth()-1,1);
+      return MONTHS[lm.getMonth()]+" "+lm.getFullYear(); }
+    if(f==="year") return String(now.getFullYear());
+    if(f==="specific") return (MONTHS[parseInt(v("monthSel"),10)]||"")+" "+v("yearSel");
+    if(f==="custom"){
+      var a=v("fromDate"), b=v("toDate");
+      if(a&&b) return koFull(a+"T00:00").replace(/ \d\d:\d\d$/,"")+" \u2013 "+
+                      koFull(b+"T00:00").replace(/ \d\d:\d\d$/,"");
+      return "Custom range";
+    }
+    if(f==="7") return "Last 7 days";
+    if(f==="14") return "Last 2 weeks";
+    if(f==="30") return "Last 30 days";
+    if(f==="90") return "Last 3 months";
+    return "All time";
+  }
+
+  function fillMonthPickers(){
+    var ys=document.getElementById("yearSel"), ms=document.getElementById("monthSel");
+    if(!ys||!ms) return;
+    var now=new Date(), years={}; years[now.getFullYear()]=1;
+    legs.forEach(function(l){ var d=new Date(l.ko); if(!isNaN(d)) years[d.getFullYear()]=1; });
+    var yv=ys.value, mv=ms.value;
+    ys.innerHTML=Object.keys(years).sort().reverse().map(function(y){
+      return '<option'+(String(y)===yv?' selected':'')+'>'+y+'</option>';}).join("");
+    ms.innerHTML=MONTHS.map(function(n,i){
+      return '<option value="'+i+'"'+(String(i)===mv?' selected':'')+'>'+n+'</option>';}).join("");
+    if(!mv) ms.value=String(now.getMonth());
+  }
+
+  function metricsCard(){
+    var list=settledLegs();
+    var m=metrics(list);
+    var chart=chartSVG(list);
+    var per=parseFloat(v("perUnit"))||0;
+    var dir=m.profit>0?"up":m.profit<0?"down":"flat";
+    var sign=m.profit>0?"+":"";
+    var cash=m.profit*per;
+    var tags=[periodLabel()];
+    ["leagueFilter","tierFilter","bookFilter"].forEach(function(id){
+      var x=v(id); if(x && x!=="all") tags.push(x);
+    });
+    return top("Results")+
+      '<div class="layer m-hero"><div class="m-label">'+esc(tags.join(" \u00b7 "))+'</div>'+
+      '<div class="m-big '+dir+'">'+sign+m.profit.toFixed(2)+'u</div></div>'+
+      '<div class="layer"><dl class="m-grid">'+
+        ["mA","mB","mC","mD"].map(function(id,i){
+          var k=v(id)||METRIC_DEFAULTS[i], def=METRICS[k]||METRICS.roi;
+          return '<div class="m-cell"><dt>'+def.label+'</dt><dd>'+def.fmt(m)+'</dd></div>';
+        }).join("")+
+      '</dl>'+
+      (chart ? '<div class="m-chart"><div class="m-charttop"><span>Units over time</span>'+
+               '<span>'+m.legs+' settled legs</span></div>'+chart+
+               '<dl class="m-tot">'+
+                 '<div><dt>Units won</dt><dd class="up">+'+m.unitsWon.toFixed(2)+'</dd></div>'+
+                 '<div><dt>Units lost</dt><dd class="down">-'+m.unitsLost.toFixed(2)+'</dd></div>'+
+                 '<div><dt>Net</dt><dd class="'+dir+'">'+sign+m.profit.toFixed(2)+'</dd></div>'+
+               '</dl></div>' : '')+
+      (per? '<div class="m-money"><div class="m-moneylab">Staking &pound;'+per+' a unit</div>'+
+            '<div class="m-moneyval">'+(cash<0?"-":"")+'&pound;'+Math.abs(cash).toFixed(2)+'</div></div>' : '')+
+      '<div class="m-note">Every settled leg counted, winners and losers.<br>Past results are no guarantee of future returns.</div>'+
+      '</div>';
+  }
+
+  document.getElementById("league").addEventListener("change",function(){
+    document.getElementById("otherWrap").style.display = this.value==="Other" ? "" : "none";
+  });
 
   function render(){
     var u=v("unit"), totalStake=0, totalReturn=0, n=rungs.length;
@@ -511,9 +1289,9 @@
       '<div class="bg-tex"></div>'+
       watermark()+
       '<img class="wm-logo" src="'+LOGO+'" alt="" style="opacity:.07">'+
-      (mode==="data" ? dataCard() :
+      (mode==="log" ? metricsCard() : mode==="data" ? dataCard() :
       (top("Ladder")+
-      '<div class="layer c-fixture"><div class="c-comp">'+esc(v("comp"))+'</div>'+
+      '<div class="layer c-fixture"><div class="c-comp">'+esc(leagueName())+'</div>'+
         '<div class="c-teams">'+esc(v("home"))+' <em>v</em> '+esc(v("away"))+'</div></div>'+
       '<div class="layer c-ladder"><div class="rail"></div>'+html+'</div>'+
       '<dl class="layer c-totals">'+
@@ -528,8 +1306,8 @@
   function fit(){card.style.transform="scale("+(stage.clientWidth/1080)+")";}
   window.addEventListener("resize",fit);
 
-  document.getElementById("dl").addEventListener("click",function(){
-    var b=this,old=b.textContent; b.textContent="Rendering\u2026"; b.disabled=true;
+  function doExport(b,alsoLog){
+    var old=b.textContent; b.textContent="Rendering\u2026"; b.disabled=true;
     var prev=card.style.transform; card.style.transform="scale(1)";
     html2canvas(card,{backgroundColor:"#07182C",width:1080,height:1350,scale:1,useCORS:true})
       .then(function(cv){
@@ -538,18 +1316,48 @@
         document.getElementById("ovImg").src=url;
         var dl=document.getElementById("ovDl"); dl.href=url; dl.download=name;
         document.getElementById("ov").classList.add("on");
+        if(alsoLog && mode==="ladder") addToLog();
       })
       .catch(function(){b.textContent="Export failed \u2014 screenshot instead";})
       .finally(function(){card.style.transform=prev;
         setTimeout(function(){b.textContent=old;b.disabled=false;},900);});
+  }
+
+  document.getElementById("dl").addEventListener("click",function(){ doExport(this,true); });
+  document.getElementById("dlOnly").addEventListener("click",function(){ doExport(this,false); });
+  document.getElementById("logOnly").addEventListener("click",function(){
+    var b=this, old=b.textContent, n=addToLog();
+    b.textContent = n ? "Logged "+n+" legs" : "Nothing to log";
+    setTimeout(function(){ b.textContent=old; }, 1400);
   });
 
   document.getElementById("ovClose").addEventListener("click",function(){
     document.getElementById("ov").classList.remove("on");
   });
 
-  buildControls(); buildStats();
+  (function(){
+    var d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset());
+    document.getElementById("kickoff").value=d.toISOString().slice(0,16);
+  })();
+  buildControls(); buildStats(); fillMetricPickers(); fillMonthPickers(); refreshLeagueFilter(); buildLog(); applyChrome();
+
+  // gentle reminder to back up — this record is the product
+  (function(){
+    if(legs.length<20) return;
+    var last=0; try{ last=parseInt(localStorage.getItem("cardini_backup_ts")||"0",10); }catch(e){}
+    if(Date.now()-last < 7*86400000) return;
+    var el=document.createElement("p");
+    el.className="hint";
+    el.style.cssText="border:1px solid var(--amber);color:var(--amber);padding:10px;margin-top:12px";
+    el.textContent="You have "+legs.length+" legs logged and no backup in the last week. Log \u2192 Backup file.";
+    var fs=document.getElementById("fs-log"); if(fs) fs.appendChild(el);
+  })();
+  document.getElementById("backup").addEventListener("click",function(){
+    try{ localStorage.setItem("cardini_backup_ts",String(Date.now())); }catch(e){}
+  });
   document.getElementById("fs-data").style.display="none";
+  document.getElementById("fs-log").style.display="none";
+  document.getElementById("fs-sync").style.display="none";
     render();
 })();
 </script>
